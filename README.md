@@ -1,77 +1,114 @@
 
-# To-Do List CLI App
+# File Sorter CLI
 
-A simple command-line Java application to manage your tasks efficiently. Add, remove, mark tasks as done, and save/load them to a file.
+A simple terminal-based file sorting tool written in **Bash**. Organize your files automatically by categories such as Images, Documents, Music, Videos, and Archives. Supports custom extensions and destinations via configuration files.
 
 ---
 
 ## Features
 
-* Add new tasks with a description.
-* Remove tasks by their number.
-* Mark tasks as completed.
-* View all tasks (pending and completed).
-* Save and load tasks from a local file (`tasks.txt`).
-* Simple and intuitive command-line interface.
+* Automatically sorts files in a source folder into categorized subfolders.
+* Supports custom file extensions defined in `extensions.json`.
+* Configurable source and destination folders via `config.conf` or CLI arguments.
+* Moves unmatched files into an `Others` folder.
+* Simple CLI interface:
+
+  ```bash
+  file-sorter --setsource /path/to/source --setdest /path/to/destination
+  ```
 
 ---
 
 ## Prerequisites
 
-* Java JDK 8 or higher installed on your system.
-* Basic understanding of running Java programs from the terminal.
+* Linux or macOS system with Bash.
+* `jq` installed for JSON parsing. Install via:
+
+  ```bash
+  sudo apt install jq     # Debian/Ubuntu
+  sudo pacman -S jq       # Arch Linux
+  brew install jq         # macOS
+  ```
 
 ---
 
-## Getting Started
+## Installation
 
-### Clone the repository
+1. Clone the repository:
 
 ```bash
 git clone <your-repo-url>
-cd todo-cli-java
+cd sorter
 ```
 
-### Compile the project
+2. Run the installer:
 
 ```bash
-javac Main.java
+chmod +x install.sh
+./install.sh
 ```
 
-### Run the application
+3. **Restart your shell** or source your config:
 
 ```bash
-java Main
+source ~/.zshrc   # or ~/.bashrc
 ```
 
 ---
 
 ## Usage
 
-1. **Add a Task:**
-   Enter the task description when prompted.
+### Default usage (from config files):
 
-2. **View Tasks:**
-   See a numbered list of tasks with their completion status.
+```bash
+file-sorter
+```
 
-3. **Mark Task as Done:**
-   Enter the task number to mark it completed.
+Uses `config.conf` for source and destination folders and `extensions.json` for categories.
 
-4. **Remove Task:**
-   Enter the task number to remove it from the list.
+### Override source/destination via CLI:
 
-5. **Exit:**
-   All tasks are automatically saved to `tasks.txt`.
+```bash
+file-sorter --setsource ~/Downloads --setdest ~/Downloads/Sorted
+```
+
+* `--setsource` → path to the folder to sort
+* `--setdest` → path to the destination folder
 
 ---
 
-## Project Structure
+## File Structure
 
 ```
-├── Main.java          # Entry point of the application
-├── Task.java          # Task class definition
-├── tasks.txt          # File storing all tasks
+sorter/
+├── config.conf          # Default source and destination
+├── extensions.json      # Defines file categories and extensions
+├── sorter.sh            # Main sorting script
+├── install.sh           # Installs CLI globally
 └── README.md
+```
+
+---
+
+## Customization
+
+* Edit `extensions.json` to add/remove file types or categories. Example:
+
+```json
+{
+  "Images": ["jpg", "png", "gif"],
+  "Docs": ["pdf", "docx", "txt"],
+  "Music": ["mp3", "wav"],
+  "Videos": ["mp4", "mkv"],
+  "Archives": ["zip", "rar", "tar.gz"]
+}
+```
+
+* Update `config.conf` to set default source and destination:
+
+```bash
+SOURCE=~/Downloads
+DEST=~/Downloads/Sorted
 ```
 
 ---
@@ -81,10 +118,9 @@ java Main
 Contributions are welcome!
 
 1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/my-feature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/my-feature`).
-5. Open a Pull Request.
+2. Create a feature branch.
+3. Make your changes.
+4. Submit a pull request.
 
 ---
 
